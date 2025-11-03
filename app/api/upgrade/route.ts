@@ -1,35 +1,45 @@
 import { NextResponse } from "next/server";
-import { openai } from "@/lib/openai";
-import { AI_CONFIG } from "@/lib/config";
-
-export const runtime = "edge";
+import OpenAI from "openai";
+import { AIConfig } from "@/lib/config";
 
 export async function POST(req: Request) {
   try {
-    const { text } = await req.json();
-    if (!text) {
-      return NextResponse.json({ error: "No text provided" }, { status: 400 });
+    const { resumeText } = await req.json();
+
+    if (!resumeText || !AIConfig.apiKey) {
+      return NextResponse.json(
+        { error: "Missing resume text or API key" },
+        { status: 400 }
+      );
     }
 
-    const completion = await openai.chat.completions.create({
-      model: AI_CONFIG.model,
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert résumé writing assistant.",
-        },
-        {
-          role: "user",
-          content: `Improve and professionally rewrite this résumé text:\n${text}`,
-        },
-      ],
+    const client = new OpenAI({
+      apiKey: AIConfig.apiKey,
+      baseURL: AIConfig.baseURL,
     });
 
-    return NextResponse.json({
-      result: completion.choices[0].message.content,
+    const prompt = `
+You are an expert resume writer.
+Enhance this resume for clarity, impact, and professional tone.
+Keep the original structure. Resume:
+${resumeText}
+`;
+
+    const completion = await client.chat.completions.create({
+      model: AIConfig.model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
     });
-  } catch (err: any) {
-    console.error("🔥 OPENAI API Error:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+
+    const upgradedResume =
+      completion.choices?.[0]?.message?.content || "No response.";
+
+    return NextResponse.json({ upgradedResume });
+  } catch (error: any) {
+    console.error("🔥 API Error:", error);
+    return NextResponse.json(
+      { error: error.message || "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
