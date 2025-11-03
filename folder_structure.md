@@ -1,27 +1,14 @@
 resume-upgrader/
-│
-├── app/
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── api/
-│       └── upgrade/route.ts
-│
-├── components/
-│   ├── TextAreaInput.tsx
-│   ├── UpgradeButton.tsx
-│   └── OutputBox.tsx
-│
-├── lib/
-│   ├── config.ts
-│   └── openai.ts
-│
-├── public/
-│   └── favicon.ico
-│
-├── styles/
-│   └── globals.css
-│
-├── .env.local          # Environment variables
-├── README.md           # Project overview & usage
-├── ROADMAP.md          # Development plan
-└── EXECUTION.md        # Step-by-step run/deploy guide
+├─ app/
+│  ├─ api/
+│  │   └─ upgrade/
+│  │        └─ route.ts
+│  ├─ globals.css
+│  ├─ layout.tsx
+│  └─ page.tsx
+├─ lib/
+│  └─ config.ts
+├─ .env.local
+├─ README.md
+├─ roadmap.md
+└─ package.json

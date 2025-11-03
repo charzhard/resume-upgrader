@@ -1,66 +1,37 @@
-# 🧠 Resume Upgrader
+# 🚀 Resume Upgrader
 
-AI-powered résumé enhancer built with Next.js 15, TypeScript, and Tailwind CSS.
-
----
-
-## 🚀 Features
-- Paste résumé content and get an AI-refined version instantly  
-- Uses OpenAI-compatible API (configurable base URL + model)  
-- Runs on the Edge runtime for speed and low latency  
-- Simple, responsive UI
+An **AI-powered resume enhancement tool** built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS**, and configurable **AI backends (OpenAI, Anthropic, etc.)**.  
+It intelligently upgrades resumes for better clarity, tone, and professional impact.
 
 ---
 
-## 🧩 Tech Stack
-- **Frontend**: Next.js 15 (App Router) + TypeScript + Tailwind CSS v4
-- **Backend**: Edge API route + OpenAI SDK
-- **AI Model**: Configurable via `.env.local`
+## 🧠 Features
+
+- ✨ AI-enhanced resume improvement using configurable LLMs  
+- ⚙️ Modular architecture with clean `app/` and `lib/` separation  
+- 🧩 Environment-based model configuration (`.env.local`)  
+- 💡 Built with **Next.js App Router**, **TypeScript**, and **TailwindCSS**  
+- 📦 Ready for **Vercel** or **Docker** deployment  
 
 ---
 
-## ⚙️ Setup
+## 🧰 Tech Stack
 
+| Layer | Technology |
+|-------|-------------|
+| Frontend | Next.js 16 (App Router) + React 18 |
+| Styling | Tailwind CSS |
+| Backend | Next.js Route Handlers (Edge Ready) |
+| Language | TypeScript |
+| AI Integration | OpenAI SDK (configurable) |
+| Version Control | Git + GitHub |
+| Deployment (future) | Vercel / Docker |
+
+---
+
+## ⚙️ Project Setup
+
+### 1️⃣ Clone the Repo
 ```bash
-git clone https://github.com/<your-username>/resume-upgrader.git
+git clone https://github.com/charzhard/resume-upgrader.git
 cd resume-upgrader
-npm install
-
-
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
