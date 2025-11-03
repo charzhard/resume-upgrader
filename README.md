@@ -1,3 +1,33 @@
+# 🧠 Resume Upgrader
+
+AI-powered résumé enhancer built with Next.js 15, TypeScript, and Tailwind CSS.
+
+---
+
+## 🚀 Features
+- Paste résumé content and get an AI-refined version instantly  
+- Uses OpenAI-compatible API (configurable base URL + model)  
+- Runs on the Edge runtime for speed and low latency  
+- Simple, responsive UI
+
+---
+
+## 🧩 Tech Stack
+- **Frontend**: Next.js 15 (App Router) + TypeScript + Tailwind CSS v4
+- **Backend**: Edge API route + OpenAI SDK
+- **AI Model**: Configurable via `.env.local`
+
+---
+
+## ⚙️ Setup
+
+```bash
+git clone https://github.com/<your-username>/resume-upgrader.git
+cd resume-upgrader
+npm install
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
