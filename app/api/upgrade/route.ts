@@ -1,45 +1,48 @@
-import { NextResponse } from "next/server";
-import OpenAI from "openai";
-import { AIConfig } from "@/lib/config";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
+import { openai } from '@/lib/openai';
+import { RESUME_PROMPT_TEMPLATE } from '@/constants/resume';
+import { saveResumeToDB } from '@/lib/supabaseClient';
 
 export async function POST(req: Request) {
   try {
-    const { resumeText } = await req.json();
-
-    if (!resumeText || !AIConfig.apiKey) {
-      return NextResponse.json(
-        { error: "Missing resume text or API key" },
-        { status: 400 }
-      );
+    const { userId } = auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const client = new OpenAI({
-      apiKey: AIConfig.apiKey,
-      baseURL: AIConfig.baseURL,
+    const body = await req.json();
+    const { resume, title } = body;
+    if (!resume || typeof resume !== 'string') {
+      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    }
+
+    const prompt = RESUME_PROMPT_TEMPLATE(resume);
+
+    const completion = await openai.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are an expert resume writer.' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.6,
     });
 
-    const prompt = `
-You are an expert resume writer.
-Enhance this resume for clarity, impact, and professional tone.
-Keep the original structure. Resume:
-${resumeText}
-`;
+    const upgraded = completion?.choices?.[0]?.message?.content ?? '';
 
-    const completion = await client.chat.completions.create({
-      model: AIConfig.model,
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-    });
+    const record = {
+      id: crypto.randomUUID(),
+      user_id: userId,
+      title: title || null,
+      original_text: resume,
+      upgraded_text: upgraded,
+    };
 
-    const upgradedResume =
-      completion.choices?.[0]?.message?.content || "No response.";
+    await saveResumeToDB(record);
 
-    return NextResponse.json({ upgradedResume });
-  } catch (error: any) {
-    console.error("🔥 API Error:", error);
-    return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ upgraded, id: record.id });
+  } catch (err: any) {
+    console.error('/api/upgrade error:', err);
+    return NextResponse.json({ error: err.message ?? String(err) }, { status: 500 });
   }
 }

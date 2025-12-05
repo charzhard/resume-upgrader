@@ -35,3 +35,24 @@ It intelligently upgrades resumes for better clarity, tone, and professional imp
 ```bash
 git clone https://github.com/charzhard/resume-upgrader.git
 cd resume-upgrader
+
+---
+# Resume Upgrader - Day 3 (Clerk + Supabase)
+
+## What is included
+- Clerk auth integration (sign-up, sign-in)
+- Protected dashboard
+- Supabase integration (save resumes to PostgreSQL)
+- OpenAI integration (resume upgrade)
+- Supabase storage helper ready for PDF upload
+
+## Quick start
+1. Copy files into your Next.js project (see file paths).
+2. Install dependencies:
+   npm install @clerk/nextjs @supabase/supabase-js openai
+3. Create a .env.local from .env.example
+4. Run dev:
+   npm run dev
+
+## Supabase
+Run `supabase_schema.sql` in your Supabase project's SQL editor to create the `resumes` table.
