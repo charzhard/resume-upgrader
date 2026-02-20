@@ -1,25 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY!;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY!;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-export const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {  // server-side
-  auth: { persistSession: false },
-});
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabaseAdmin = createClient(SUPABASE_URL, SERVICE_ROLE);
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: { persistSession: false },
-});
-
-// Functions
-export async function saveResumeToDB(record: { id: string; user_id: string; title?: string; original_text: string; upgraded_text: string; }) {
+export async function saveResumeToDB(record: { id: string; user_id: string; title?: string | null; original_text: string; upgraded_text: string; }) {
   const { data, error } = await supabaseAdmin
     .from('resumes')
     .insert({
       id: record.id,
       user_id: record.user_id,
-      title: record.title || null,
+      title: record.title,
       original_text: record.original_text,
       upgraded_text: record.upgraded_text,
     });
@@ -37,5 +31,15 @@ export async function listUserResumes(userId: string) {
     console.error('listUserResumes error', error);
     return [];
   }
-  return data;
+  return data || [];
+}
+
+export async function getResumeById(id: string) {
+  const { data, error } = await supabase
+    .from('resumes')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data || null;
 }

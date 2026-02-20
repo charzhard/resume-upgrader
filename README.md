@@ -56,3 +56,22 @@ cd resume-upgrader
 
 ## Supabase
 Run `supabase_schema.sql` in your Supabase project's SQL editor to create the `resumes` table.
+
+####  Models 
+Models located at: /lib/ai/models.ts
+You can modify default or available models easily.
+
+#### Providers supported:
+- Google AI Studio (Gemini)
+
+
+# Resume Upgrader – Task 5.1
+
+Enterprise-grade resume ingestion and structuring pipeline.
+
+## Run
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+POST /resume/analyze
+
